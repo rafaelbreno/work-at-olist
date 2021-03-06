@@ -1,0 +1,10 @@
+# IDE folders
+.idea/
+.vscode/
+
+# Postgres generated files
+db/
+
+# Environment Files
+.env
+
