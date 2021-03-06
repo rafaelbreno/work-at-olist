@@ -33,6 +33,9 @@
 - [ ] Write project's documentation
     - Deployment
     - API
+- [ ] Implement CLI commands
+    - Add CSV files
+    - `go run add_csg.go --file=foo_bar.csv`
 
 ------
 
