@@ -3,7 +3,9 @@ package database
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/rafaelbreno/work-at-olist/cmd/logger"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -40,11 +42,15 @@ func (pg *Postgres) setCredentials() {
 }
 
 func (pg *Postgres) setConn() {
-	conn, err := gorm.Open(postgres.Open(pg.dbConnStr), &gorm.Config{})
-
-	if err != nil {
-		panic(err)
+	var conn *gorm.DB
+	var err error
+	for {
+		conn, err = gorm.Open(postgres.Open(pg.dbConnStr), &gorm.Config{})
+		if err == nil {
+			break
+		}
+		logger.Error(fmt.Sprintf("Error: %s\nRetrying in 5 seconds", err.Error()))
+		time.Sleep(time.Second * 5)
 	}
-
 	pg.Conn = conn
 }
