@@ -10,12 +10,16 @@ type Logger struct {
 	Config zap.Config
 }
 
+var log *zap.Logger
+
 func init() {
 	var l Logger
 
 	l.
 		setConfig().
 		log()
+
+	log = l.Log
 
 	defer l.Log.Info("Starting Application")
 }
