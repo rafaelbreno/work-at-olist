@@ -23,7 +23,8 @@ func authorRoutes() {
 	authorH := handler.GetAuthorHandlers()
 	a := r.Group("/authors")
 	{
-		a.GET("/authors", authorH.FindAll)
-		a.GET("/author/:id", authorH.FindById)
+		a.POST("/", authorH.ImportCSV)
+		a.GET("/", authorH.FindAll)
+		a.GET("/:id", authorH.FindById)
 	}
 }
