@@ -1,7 +1,9 @@
 package database
 
 // Setting Database connections
+
+var PGConn Postgres
+
 func init() {
-	var pg Postgres
-	pg.SetPostgres()
+	PGConn.SetPostgres()
 }
