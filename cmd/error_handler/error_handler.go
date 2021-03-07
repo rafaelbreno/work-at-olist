@@ -48,6 +48,13 @@ func (e *AppError) GetTrace() string {
 	return fmt.Sprintf("%s:%d %s - %s\n", e.Trace.FileName, e.Trace.Line, e.Trace.Function, e.Message())
 }
 
+func (e *AppError) GetJSON() interface{} {
+	return map[string]interface{}{
+		"error": e.Message(),
+		"trace": e.GetTrace(),
+	}
+}
+
 func NewNotFoundError(message string, t Trace) *AppError {
 	return &AppError{
 		HTTPStatus: http.StatusNotFound,
