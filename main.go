@@ -1,6 +1,9 @@
 package main
 
-import "github.com/joho/godotenv"
+import (
+	"github.com/joho/godotenv"
+	_ "github.com/rafaelbreno/work-at-olist/cmd/logger"
+)
 
 // Set environment
 func setEnv() {
