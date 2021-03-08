@@ -8,6 +8,7 @@ import (
 )
 
 type AuthorService interface {
+	Create(author dto.AuthorResponse) (dto.AuthorResponse, *error_handler.AppError)
 	ImportCSV(authorsReq []dto.AuthorResponse) ([]dto.AuthorResponse, *error_handler.AppError)
 	FindAll() ([]*dto.AuthorResponse, *error_handler.AppError)
 	FindById(id uint) (*dto.AuthorResponse, *error_handler.AppError)
@@ -19,6 +20,18 @@ type DefaultAuthorService struct {
 
 func NewAuthorService(r repositories.AuthorRepository) DefaultAuthorService {
 	return DefaultAuthorService{r}
+}
+
+func (s DefaultAuthorService) Create(authorReq dto.AuthorResponse) (dto.AuthorResponse, *error_handler.AppError) {
+	author, err := s.repo.Create(authorReq)
+
+	if err != nil {
+		return dto.AuthorResponse{}, err
+	}
+
+	authorDTO := author.ToDTO()
+
+	return authorDTO, nil
 }
 
 func (s DefaultAuthorService) ImportCSV(authorsReq []dto.AuthorResponse) ([]dto.AuthorResponse, *error_handler.AppError) {

@@ -25,6 +25,31 @@ func GetAuthorHandlers() AuthorHandlers {
 	}
 }
 
+func (h *AuthorHandlers) Create(c *gin.Context) {
+	var authorReq dto.AuthorResponse
+
+	if err := c.ShouldBindJSON(&authorReq.Name); err != nil {
+		errHandler := error_handler.AppError{
+			HTTPStatus: http.StatusBadRequest,
+			Err:        err,
+			Trace:      error_handler.SetTrace(),
+		}
+		c.JSON(errHandler.HTTPStatus, errHandler.GetJSON())
+		logger.Error(errHandler.GetTrace())
+		return
+	}
+
+	author, err := h.service.Create(authorReq)
+
+	if err != nil {
+		c.JSON(err.StatusCode(), err.GetJSON())
+		logger.Error(err.GetTrace())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"authors": author})
+}
+
 func (h *AuthorHandlers) ImportCSV(c *gin.Context) {
 	csvFormFile, _, errFile := c.Request.FormFile("contacts")
 
