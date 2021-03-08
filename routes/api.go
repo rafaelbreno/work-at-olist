@@ -21,9 +21,10 @@ func routes() {
 
 func authorRoutes() {
 	authorH := handler.GetAuthorHandlers()
-	a := r.Group("/authors")
+	a := r.Group("/author")
 	{
-		a.POST("/", authorH.ImportCSV)
+		a.POST("/create", authorH.Create)
+		a.POST("/upload", authorH.ImportCSV)
 		a.GET("/", authorH.FindAll)
 		a.GET("/:id", authorH.FindById)
 	}
