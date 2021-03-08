@@ -20,5 +20,6 @@ type Author struct {
 func (a *Author) ToDTO() dto.AuthorResponse {
 	return dto.AuthorResponse{
 		Name: a.Name,
+		ID:   a.ID,
 	}
 }
