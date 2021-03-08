@@ -2,6 +2,7 @@ package services
 
 import (
 	"github.com/rafaelbreno/work-at-olist/cmd/error_handler"
+	"github.com/rafaelbreno/work-at-olist/domain"
 	"github.com/rafaelbreno/work-at-olist/dto"
 	"github.com/rafaelbreno/work-at-olist/repositories"
 )
@@ -21,7 +22,15 @@ func NewAuthorService(r repositories.AuthorRepository) DefaultAuthorService {
 }
 
 func (s DefaultAuthorService) ImportCSV(authorsReq []dto.AuthorResponse) ([]dto.AuthorResponse, *error_handler.AppError) {
-	authors, err := s.repo.ImportCSV(authorsReq)
+	var domainAuthors []domain.Author
+
+	for _, val := range authorsReq {
+		domainAuthors = append(domainAuthors, domain.Author{
+			Name: val.Name,
+		})
+	}
+
+	authors, err := s.repo.ImportCSV(domainAuthors)
 
 	if err != nil {
 		return nil, err
