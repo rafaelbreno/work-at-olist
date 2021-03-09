@@ -29,3 +29,14 @@ func authorRoutes() {
 		a.GET("/:id", authorH.FindById)
 	}
 }
+
+func bookRoutes() {
+	bookH := handler.GetBookHandlers()
+	a := r.Group("/author")
+	{
+		a.POST("/create", bookH.Create)
+		a.GET("/:id", bookH.Find)
+		a.PUT("/:id", bookH.Update)
+		a.DELETE("/:id", bookH.Delete)
+	}
+}
